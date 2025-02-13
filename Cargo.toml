@@ -1,0 +1,42 @@
+[package]
+name = "elemental"
+version = "0.1.0"
+edition = "2021"
+
+###########################  DEVELOPMENT OPTIMIZATIONS  ###########################
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
+###########################  RELEASE OPTIMIZATIONS  ###########################
+# Enable more optimization in the release profile at the cost of compile time.
+[profile.release]
+# Compile the entire crate as one unit.
+# Slows compile times, marginal improvements.
+codegen-units = 1
+# Do a second optimization pass over the entire program, including dependencies.
+# Slows compile times, marginal improvements.
+lto = "thin"
+
+# [profile.release]
+# lto = true
+# opt-level = 3
+# codegen-units = 1
+# incremental = false
+# debug = false
+
+###########################  DEPENDENCIES  ###########################
+[dependencies]
+avian2d = "0.2.1"
+bevy = { version = "0.15.2", features = [
+  # "dynamic_linking",
+  # "wayland",
+  "bevy_dev_tools",
+] }
+log = { version = "*", features = [
+  "max_level_debug",
+  "release_max_level_warn",
+] }
